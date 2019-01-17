@@ -1,4 +1,5 @@
 import UIKit
+import RxSwift
 
 class ViewController: UIViewController {
 
@@ -6,10 +7,17 @@ class ViewController: UIViewController {
 
     private let mvcView = View(title: "MVC:")
     private let mvpView = View(title: "MVP:")
+    private let mvvmView = View(title: "MVVM:")
+    private let mvvmDataBindView = View(title: "MVVM-B:")
 
     private var mvcObserver: NSObjectProtocol?
 
     private var presenter: Presenter?
+
+    private var viewModel: ViewModel?
+    private var mvvmObserver: NSObjectProtocol?
+
+//    private var dataBindViewModel: DataBindViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +26,8 @@ class ViewController: UIViewController {
 
         mvcDidLoad()
         mvpDidLoad()
+        mvvmDidLoad()
+//        mvvmDataBindDidLoad()
     }
 
 }
@@ -84,13 +94,72 @@ extension ViewController: ViewProtocol {
     }
 }
 
+// MARK: - MVVM
+
+class ViewModel: NSObject {
+
+    @objc dynamic var textFieldValue: String
+
+    private var model: Model
+    private var observer: NSObjectProtocol?
+
+    init(model: Model) {
+        self.model = model
+        textFieldValue = model.value
+        super.init()
+
+        observer = NotificationCenter.default.addObserver(forName: Model.textDidChange, object: nil, queue: nil) { [weak self] (note) in
+            self?.textFieldValue = note.userInfo?[Model.textKey] as? String ?? ""
+        }
+    }
+
+    func commit(value: String) {
+        model.value = value
+    }
+}
+
+extension ViewController {
+
+    private func mvvmDidLoad() {
+        viewModel = ViewModel(model: model)
+
+        mvvmObserver = viewModel?.observe(\.textFieldValue, options: [.initial, .new], changeHandler: { [weak self] (_, change) in
+            self?.mvvmView.textFieldValue = change.newValue
+        })
+
+        mvvmView.commit = { [weak self] in
+            self?.viewModel?.commit(value: self?.mvvmView.textFieldValue ?? "")
+        }
+    }
+}
+
+// MARK: - mvvmDataBind
+//class DataBindViewModel: NSObject {
+//    private var model: Model
+//
+//    var textFieldValue: Variable<String>?
+//
+//    init(model: Model) {
+//        self.model = model
+//        super.init()
+//
+//        textFieldValue = Variable(model.value)
+//    }
+//}
+//extension ViewController {
+//    private func mvvmDataBindDidLoad() {
+//        dataBindViewModel = DataBindViewModel(model: model)
+//
+//        dataBindViewModel?.textFieldValue?.asObservable()
+//    }
+//}
 
 extension ViewController {
 
     private func makeUI() {
         view.backgroundColor = .lightGray
 
-        let stack = UIStackView(arrangedSubviews: [mvcView, mvpView])
+        let stack = UIStackView(arrangedSubviews: [mvcView, mvpView, mvvmView])
         stack.axis = .vertical
         stack.alignment = .fill
         stack.distribution = .equalSpacing
