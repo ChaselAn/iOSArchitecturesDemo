@@ -44,18 +44,6 @@ class MVCControllerNetViewController: UIViewController {
                 }
             }
         }.resume()
-
-        mvcStateStore.subscribe(newStateOnly: true) { [weak self] (state) in
-            guard let action = state.action else { return }
-            switch action {
-            case .starChanged(index: let index):
-                self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
-            case .addRepo:
-                self?.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
-            case .deleteRepo(index: let index):
-                self?.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
-            }
-        }
     }
 
     private func makeUI() {

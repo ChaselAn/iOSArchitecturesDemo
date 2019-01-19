@@ -26,8 +26,10 @@ class MainTableViewController: UITableViewController {
             vc = MVCReducerViewController()
         case 3:
             vc = MVCControllerNetViewController()
+        case 4:
+            vc = MVCModelNetViewController()
         default:
-            vc = ViewController()
+            fatalError()
         }
         navigationController?.pushViewController(vc, animated: true)
     }
