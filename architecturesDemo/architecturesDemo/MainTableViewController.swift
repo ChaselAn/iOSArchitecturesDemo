@@ -24,6 +24,8 @@ class MainTableViewController: UITableViewController {
             vc = MVCViewController()
         case 2:
             vc = MVCReducerViewController()
+        case 3:
+            vc = MVCControllerNetViewController()
         default:
             vc = ViewController()
         }
