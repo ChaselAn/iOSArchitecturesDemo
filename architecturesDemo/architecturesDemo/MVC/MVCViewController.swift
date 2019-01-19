@@ -13,15 +13,27 @@ class MVCViewController: UIViewController {
     private let tableView = UITableView()
     private var headerView = Bundle.main.loadNibNamed("MVCTableViewHeaderView", owner: nil, options: nil)!.first as! MVCTableViewHeaderView
 
-    private var model: MVCModel {
-        return MVCStore.shared.model
-    }
+    private var model: MVCModel = MVCStore.shared.model
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         makeUI()
         config()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleStoreChanged), name: MVCStore.changedNotification, object: nil)
+    }
+
+    @objc private func handleStoreChanged(notification: Notification) {
+        guard let reason = notification.userInfo?[MVCModel.changeReasonKey] as? MVCModel.ChangeReasonKey else { return }
+        switch reason {
+        case .starChanged(index: let index):
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+        case .addRepo:
+            break
+        case .removeRepo:
+            break
+        }
     }
 
     private func makeUI() {
@@ -54,6 +66,9 @@ extension MVCViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MVCTableViewCell", for: indexPath) as! MVCTableViewCell
         let repo = model.repositories[indexPath.row]
         cell.setData(title: repo.title, isStar: repo.isStar)
+        cell.starImageViewTapAction = { [weak self] in
+            self?.model.tapStarRepo(id: repo.id)
+        }
         cell.selectionStyle = .none
         return cell
     }

@@ -7,12 +7,26 @@
 //
 
 import UIKit
+import Disk
 
 class MVCStore {
 
     static let shared = MVCStore()
-    private(set) var model = MVCModel.mock() // 注意为什么用struct
+    private(set) var model: MVCModel
 
-    private init() {}
+    static let changedNotification = Notification.Name("StoreChanged")
+    private let diskPath = "MVCStore"
 
+    private init() {
+        if let data = try? Disk.retrieve(diskPath, from: .documents, as: MVCModel.self) {
+            self.model = data
+        } else {
+            self.model = MVCModel.mock()
+        }
+    }
+
+    func save(_ model: MVCModel, userInfo: [AnyHashable: Any]) {
+        try? Disk.save(model, to: .documents, as: diskPath)
+        NotificationCenter.default.post(name: MVCStore.changedNotification, object: model, userInfo: userInfo)
+    }
 }

@@ -14,7 +14,7 @@ class MVCTableViewCell: UITableViewCell {
     
     @IBOutlet weak var starImageView: UIImageView!
 
-    var starImageViewTapAction: ((Bool)-> Void)?
+    var starImageViewTapAction: (()-> Void)?
 
     private var isStar = false {
         didSet {
@@ -35,6 +35,6 @@ class MVCTableViewCell: UITableViewCell {
     }
 
     @objc private func starImageViewDidTap(_ sender: UITapGestureRecognizer) {
-        starImageViewTapAction?(isStar)
+        starImageViewTapAction?()
     }
 }
