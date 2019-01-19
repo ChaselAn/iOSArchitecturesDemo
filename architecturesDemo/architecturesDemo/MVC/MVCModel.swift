@@ -22,7 +22,7 @@ class MVCModel: Codable {
     enum ChangeReasonKey {
         case starChanged(index: Int)
         case addRepo
-        case removeRepo
+        case removeRepo(index: Int)
     }
 
     func tapStarRepo(id: String) {
@@ -36,7 +36,7 @@ class MVCModel: Codable {
     }
 
     func addRepo(title: String) {
-        repositories.append(Repository(title: title, isStar: false))
+        repositories.insert(Repository(title: title, isStar: false), at: 0)
         MVCStore.shared.save(self, userInfo: [
             MVCModel.changeReasonKey: ChangeReasonKey.addRepo
             ]
@@ -47,7 +47,7 @@ class MVCModel: Codable {
         if let index = repositories.firstIndex(where: { $0.id == id }) {
             repositories.remove(at: index)
             MVCStore.shared.save(self, userInfo: [
-                MVCModel.changeReasonKey: ChangeReasonKey.removeRepo
+                MVCModel.changeReasonKey: ChangeReasonKey.removeRepo(index: index)
                 ]
             )
         }

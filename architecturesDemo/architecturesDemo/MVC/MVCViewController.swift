@@ -30,9 +30,9 @@ class MVCViewController: UIViewController {
         case .starChanged(index: let index):
             tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
         case .addRepo:
-            break
-        case .removeRepo:
-            break
+            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
+        case .removeRepo(index: let index):
+            tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
         }
     }
 
@@ -54,6 +54,19 @@ class MVCViewController: UIViewController {
 
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 50
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "add", style: .plain, target: self, action: #selector(addRepo))
+    }
+
+    @objc private func addRepo() {
+        let alert = UIAlertController(title: "add repo", message: nil, preferredStyle: .alert)
+        alert.addTextField(configurationHandler: nil)
+        alert.addAction(UIAlertAction(title: "add", style: .default, handler: { [weak self] (_) in
+            guard let text = alert.textFields?.first?.text, !text.isEmpty else { return }
+            self?.model.addRepo(title: text)
+        }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -71,5 +84,15 @@ extension MVCViewController: UITableViewDataSource {
         }
         cell.selectionStyle = .none
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        let repo = model.repositories[indexPath.row]
+        model.removeRepo(id: repo.id)
     }
 }
