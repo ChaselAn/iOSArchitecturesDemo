@@ -30,7 +30,7 @@ extension MVCModel {
             Repository(title: "FancyAlert", isStar: false)
         ]
 
-        return MVCModel(avatarURL: URL(string: "https://github.com/account")!, nickname: "ChaselAn", repositories: repositories)
+        return MVCModel(avatarURL: URL(string: "https://raw.githubusercontent.com/ChaselAn/iOSArchitecturesDemo/master/architecturesDemo/timg.jpeg")!, nickname: "ChaselAn", repositories: repositories)
     }
 }
 

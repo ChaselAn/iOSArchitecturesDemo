@@ -12,14 +12,11 @@ class MVCTableViewHeaderView: UIView {
 
     @IBOutlet weak var avatarImageView: UIImageView!
 
-    @IBOutlet weak var nicknameLabel: UILabel!
+    @IBOutlet weak var nicknameTextField: UITextField!
     
-    func setAvatar(url: URL) {
+    func setData(url: URL, nickname: String) {
+        nicknameTextField.text = nickname
         guard let data = try? Data(contentsOf: url) else { return }
         avatarImageView.image = UIImage(data: data)
-    }
-
-    func setNickname(text: String) {
-        nicknameLabel.text = text
     }
 }

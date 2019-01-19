@@ -16,14 +16,16 @@ class MainTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc: UIViewController
         switch indexPath.row {
         case 0:
-            let vc = ViewController()
-            navigationController?.pushViewController(vc, animated: true)
+            vc = ViewController()
+        case 1:
+            vc = MVCViewController()
         default:
-            let vc = ViewController()
-            navigationController?.pushViewController(vc, animated: true)
+            vc = ViewController()
         }
+        navigationController?.pushViewController(vc, animated: true)
     }
 
 }

@@ -10,15 +10,31 @@ import UIKit
 
 class MVCTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var starImageView: UIImageView!
+
+    var starImageViewTapAction: ((Bool)-> Void)?
+
+    private var isStar = false {
+        didSet {
+            starImageView.image = isStar ? #imageLiteral(resourceName: "icon_star") : #imageLiteral(resourceName: "icon_unstar")
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        starImageView.isUserInteractionEnabled = true
+        starImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(starImageViewDidTap)))
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    func setData(title: String, isStar: Bool) {
+        titleLabel.text = title
+        self.isStar = isStar
     }
 
+    @objc private func starImageViewDidTap(_ sender: UITapGestureRecognizer) {
+        starImageViewTapAction?(isStar)
+    }
 }

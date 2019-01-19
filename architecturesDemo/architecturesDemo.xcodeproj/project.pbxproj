@@ -16,10 +16,12 @@
 		40283A1E21D8C45600C000C8 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A1D21D8C45600C000C8 /* View.swift */; };
 		40283A2021F0C2DC00C000C8 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A1F21F0C2DC00C000C8 /* MainTableViewController.swift */; };
 		40283A2421F2FB0C00C000C8 /* MVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A2321F2FB0C00C000C8 /* MVCViewController.swift */; };
-		40283A2621F2FCA100C000C8 /* MVCTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A2521F2FCA100C000C8 /* MVCTableViewCell.swift */; };
 		40283A2A21F2FD5200C000C8 /* MVCTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A2921F2FD5200C000C8 /* MVCTableViewHeaderView.swift */; };
 		40283A2C21F2FD5900C000C8 /* MVCTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40283A2B21F2FD5900C000C8 /* MVCTableViewHeaderView.xib */; };
 		40283A2E21F3011500C000C8 /* MVCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A2D21F3011500C000C8 /* MVCModel.swift */; };
+		40283A3021F3040D00C000C8 /* MVCStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A2F21F3040D00C000C8 /* MVCStore.swift */; };
+		40283A3321F3056F00C000C8 /* MVCTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A3121F3056F00C000C8 /* MVCTableViewCell.swift */; };
+		40283A3421F3056F00C000C8 /* MVCTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40283A3221F3056F00C000C8 /* MVCTableViewCell.xib */; };
 		D9A2F9041235B0EF3FE471B5 /* Pods_architecturesDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F32DA77FC19A1BB95929C0 /* Pods_architecturesDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,10 +38,12 @@
 		40283A1D21D8C45600C000C8 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		40283A1F21F0C2DC00C000C8 /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		40283A2321F2FB0C00C000C8 /* MVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCViewController.swift; sourceTree = "<group>"; };
-		40283A2521F2FCA100C000C8 /* MVCTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCTableViewCell.swift; sourceTree = "<group>"; };
 		40283A2921F2FD5200C000C8 /* MVCTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCTableViewHeaderView.swift; sourceTree = "<group>"; };
 		40283A2B21F2FD5900C000C8 /* MVCTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MVCTableViewHeaderView.xib; sourceTree = "<group>"; };
 		40283A2D21F3011500C000C8 /* MVCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCModel.swift; sourceTree = "<group>"; };
+		40283A2F21F3040D00C000C8 /* MVCStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCStore.swift; sourceTree = "<group>"; };
+		40283A3121F3056F00C000C8 /* MVCTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCTableViewCell.swift; sourceTree = "<group>"; };
+		40283A3221F3056F00C000C8 /* MVCTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MVCTableViewCell.xib; sourceTree = "<group>"; };
 		74F32DA77FC19A1BB95929C0 /* Pods_architecturesDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_architecturesDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89820DA40676ADA5F7568CF7 /* Pods-architecturesDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-architecturesDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-architecturesDemo/Pods-architecturesDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,10 +116,12 @@
 			isa = PBXGroup;
 			children = (
 				40283A2321F2FB0C00C000C8 /* MVCViewController.swift */,
-				40283A2521F2FCA100C000C8 /* MVCTableViewCell.swift */,
+				40283A3121F3056F00C000C8 /* MVCTableViewCell.swift */,
+				40283A3221F3056F00C000C8 /* MVCTableViewCell.xib */,
 				40283A2921F2FD5200C000C8 /* MVCTableViewHeaderView.swift */,
 				40283A2B21F2FD5900C000C8 /* MVCTableViewHeaderView.xib */,
 				40283A2D21F3011500C000C8 /* MVCModel.swift */,
+				40283A2F21F3040D00C000C8 /* MVCStore.swift */,
 			);
 			path = MVC;
 			sourceTree = "<group>";
@@ -189,6 +195,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40283A2C21F2FD5900C000C8 /* MVCTableViewHeaderView.xib in Resources */,
+				40283A3421F3056F00C000C8 /* MVCTableViewCell.xib in Resources */,
 				40283A1421D8C20900C000C8 /* LaunchScreen.storyboard in Resources */,
 				40283A1121D8C20900C000C8 /* Assets.xcassets in Resources */,
 				40283A0F21D8C20700C000C8 /* Main.storyboard in Resources */,
@@ -251,10 +258,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40283A3321F3056F00C000C8 /* MVCTableViewCell.swift in Sources */,
 				40283A2E21F3011500C000C8 /* MVCModel.swift in Sources */,
 				40283A1E21D8C45600C000C8 /* View.swift in Sources */,
 				40283A2421F2FB0C00C000C8 /* MVCViewController.swift in Sources */,
-				40283A2621F2FCA100C000C8 /* MVCTableViewCell.swift in Sources */,
+				40283A3021F3040D00C000C8 /* MVCStore.swift in Sources */,
 				40283A1C21D8C22600C000C8 /* Model.swift in Sources */,
 				40283A2A21F2FD5200C000C8 /* MVCTableViewHeaderView.swift in Sources */,
 				40283A0C21D8C20700C000C8 /* ViewController.swift in Sources */,
