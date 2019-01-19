@@ -166,7 +166,7 @@ extension ViewController {
 
         view.addSubview(stack)
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 150).isActive = true
         stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
 

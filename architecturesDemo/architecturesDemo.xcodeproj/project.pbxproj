@@ -14,6 +14,8 @@
 		40283A1421D8C20900C000C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40283A1221D8C20900C000C8 /* LaunchScreen.storyboard */; };
 		40283A1C21D8C22600C000C8 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A1B21D8C22600C000C8 /* Model.swift */; };
 		40283A1E21D8C45600C000C8 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A1D21D8C45600C000C8 /* View.swift */; };
+		40283A2021F0C2DC00C000C8 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A1F21F0C2DC00C000C8 /* MainTableViewController.swift */; };
+		40283A2421F2FB0C00C000C8 /* MVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40283A2321F2FB0C00C000C8 /* MVCViewController.swift */; };
 		D9A2F9041235B0EF3FE471B5 /* Pods_architecturesDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F32DA77FC19A1BB95929C0 /* Pods_architecturesDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,8 @@
 		40283A1521D8C20900C000C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40283A1B21D8C22600C000C8 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		40283A1D21D8C45600C000C8 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		40283A1F21F0C2DC00C000C8 /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
+		40283A2321F2FB0C00C000C8 /* MVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCViewController.swift; sourceTree = "<group>"; };
 		74F32DA77FC19A1BB95929C0 /* Pods_architecturesDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_architecturesDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89820DA40676ADA5F7568CF7 /* Pods-architecturesDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-architecturesDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-architecturesDemo/Pods-architecturesDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,15 +79,33 @@
 			isa = PBXGroup;
 			children = (
 				40283A0921D8C20700C000C8 /* AppDelegate.swift */,
-				40283A0B21D8C20700C000C8 /* ViewController.swift */,
-				40283A1B21D8C22600C000C8 /* Model.swift */,
-				40283A1D21D8C45600C000C8 /* View.swift */,
+				40283A1F21F0C2DC00C000C8 /* MainTableViewController.swift */,
+				40283A2121F2FAD900C000C8 /* Sample */,
+				40283A2221F2FAF200C000C8 /* MVC */,
 				40283A0D21D8C20700C000C8 /* Main.storyboard */,
 				40283A1021D8C20900C000C8 /* Assets.xcassets */,
 				40283A1221D8C20900C000C8 /* LaunchScreen.storyboard */,
 				40283A1521D8C20900C000C8 /* Info.plist */,
 			);
 			path = architecturesDemo;
+			sourceTree = "<group>";
+		};
+		40283A2121F2FAD900C000C8 /* Sample */ = {
+			isa = PBXGroup;
+			children = (
+				40283A0B21D8C20700C000C8 /* ViewController.swift */,
+				40283A1B21D8C22600C000C8 /* Model.swift */,
+				40283A1D21D8C45600C000C8 /* View.swift */,
+			);
+			path = Sample;
+			sourceTree = "<group>";
+		};
+		40283A2221F2FAF200C000C8 /* MVC */ = {
+			isa = PBXGroup;
+			children = (
+				40283A2321F2FB0C00C000C8 /* MVCViewController.swift */,
+			);
+			path = MVC;
 			sourceTree = "<group>";
 		};
 		D4FF9C8D0D6D1B7FB5795E09 /* Frameworks */ = {
@@ -217,8 +239,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				40283A1E21D8C45600C000C8 /* View.swift in Sources */,
+				40283A2421F2FB0C00C000C8 /* MVCViewController.swift in Sources */,
 				40283A1C21D8C22600C000C8 /* Model.swift in Sources */,
 				40283A0C21D8C20700C000C8 /* ViewController.swift in Sources */,
+				40283A2021F0C2DC00C000C8 /* MainTableViewController.swift in Sources */,
 				40283A0A21D8C20700C000C8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
