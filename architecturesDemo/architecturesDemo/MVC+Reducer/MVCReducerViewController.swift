@@ -1,5 +1,5 @@
 //
-//  MVCViewController.swift
+//  MVCStoreViewController.swift
 //  architecturesDemo
 //
 //  Created by ac on 2019/1/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MVCViewController: UIViewController {
+class MVCReducerViewController: UIViewController {
 
     private let tableView = UITableView()
     private var headerView = Bundle.main.loadNibNamed("MVCTableViewHeaderView", owner: nil, options: nil)!.first as! MVCTableViewHeaderView
@@ -21,18 +21,16 @@ class MVCViewController: UIViewController {
         makeUI()
         config()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleStoreChanged), name: MVCStore.changedNotification, object: nil)
-    }
-
-    @objc private func handleStoreChanged(notification: Notification) {
-        guard let reason = notification.userInfo?[MVCModel.changeReasonKey] as? MVCModel.ChangeReasonKey else { return }
-        switch reason {
-        case .starChanged(index: let index):
-            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
-        case .addRepo:
-            tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
-        case .deleteRepo(index: let index):
-            tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+        mvcStateStore.subscribe(newStateOnly: true) { [weak self] (state) in
+            guard let action = state.action else { return }
+            switch action {
+            case .starChanged(index: let index):
+                self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+            case .addRepo:
+                self?.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
+            case .deleteRepo(index: let index):
+                self?.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+            }
         }
     }
 
@@ -63,14 +61,14 @@ class MVCViewController: UIViewController {
         alert.addTextField(configurationHandler: nil)
         alert.addAction(UIAlertAction(title: "add", style: .default, handler: { [weak self] (_) in
             guard let text = alert.textFields?.first?.text, !text.isEmpty else { return }
-            self?.model.addRepo(title: text)
+            self?.model.addRepoForReducer(title: text)
         }))
         alert.addAction(UIAlertAction(title: "cancel", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 }
 
-extension MVCViewController: UITableViewDataSource {
+extension MVCReducerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return model.repositories.count
     }
@@ -80,7 +78,7 @@ extension MVCViewController: UITableViewDataSource {
         let repo = model.repositories[indexPath.row]
         cell.setData(title: repo.title, isStar: repo.isStar)
         cell.starImageViewTapAction = { [weak self] in
-            self?.model.tapStarRepo(id: repo.id)
+            self?.model.tapStarRepoForReducer(id: repo.id)
         }
         cell.selectionStyle = .none
         return cell
@@ -93,6 +91,6 @@ extension MVCViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         let repo = model.repositories[indexPath.row]
-        model.removeRepo(id: repo.id)
+        model.removeRepoForReducer(id: repo.id)
     }
 }

@@ -18,11 +18,49 @@ class MVCModel: Codable {
         self.nickname = nickname
         self.repositories = repositories
     }
+}
+
+class Repository: Codable {
+    var id: String
+    var title: String
+    var isStar: Bool
+
+    func tapStar() {
+        isStar = !isStar
+    }
+
+    init(title: String, isStar: Bool) {
+        self.id = UUID().uuidString
+        self.title = title
+        self.isStar = isStar
+    }
+}
+
+extension MVCModel {
+    static func mock() -> MVCModel {
+        let repositories = [
+            Repository(title: "ArchitecturesDemo", isStar: true),
+            Repository(title: "Octopus", isStar: false),
+            Repository(title: "SoapBubble", isStar: true),
+            Repository(title: "MonkeyKing", isStar: true),
+            Repository(title: "ACTagView", isStar: false),
+            Repository(title: "FancyAlert", isStar: false)
+        ]
+
+        return MVCModel(avatarURL: URL(string: "https://raw.githubusercontent.com/ChaselAn/iOSArchitecturesDemo/master/architecturesDemo/timg.jpeg")!,
+                        nickname: "ChaselAn",
+                        repositories: repositories)
+    }
+}
+
+// MARK: - MVC
+extension MVCModel {
+    static let changeReasonKey = "reason"
 
     enum ChangeReasonKey {
         case starChanged(index: Int)
         case addRepo
-        case removeRepo(index: Int)
+        case deleteRepo(index: Int)
     }
 
     func tapStarRepo(id: String) {
@@ -47,48 +85,31 @@ class MVCModel: Codable {
         if let index = repositories.firstIndex(where: { $0.id == id }) {
             repositories.remove(at: index)
             MVCStore.shared.save(self, userInfo: [
-                MVCModel.changeReasonKey: ChangeReasonKey.removeRepo(index: index)
+                MVCModel.changeReasonKey: ChangeReasonKey.deleteRepo(index: index)
                 ]
             )
         }
     }
 }
 
+// MARK: - MVC
 extension MVCModel {
-    static let changeReasonKey = "reason"
-}
-
-class Repository: Codable {
-    var id: String
-    var title: String
-    var isStar: Bool
-
-    func tapStar() {
-        isStar = !isStar
+    func tapStarRepoForReducer(id: String) {
+        for (index, repo) in repositories.enumerated() where repo.id == id {
+            repo.tapStar()
+            mvcStateStore.dispatch(.starChanged(index: index))
+        }
     }
 
-    init(title: String, isStar: Bool) {
-        self.id = UUID().uuidString
-        self.title = title
-        self.isStar = isStar
+    func addRepoForReducer(title: String) {
+        repositories.insert(Repository(title: title, isStar: false), at: 0)
+        mvcStateStore.dispatch(.addRepo)
     }
 
-}
-
-extension MVCModel {
-    static func mock() -> MVCModel {
-        let repositories = [
-            Repository(title: "ArchitecturesDemo", isStar: true),
-            Repository(title: "Octopus", isStar: false),
-            Repository(title: "SoapBubble", isStar: true),
-            Repository(title: "MonkeyKing", isStar: true),
-            Repository(title: "ACTagView", isStar: false),
-            Repository(title: "FancyAlert", isStar: false)
-        ]
-
-        return MVCModel(avatarURL: URL(string: "https://raw.githubusercontent.com/ChaselAn/iOSArchitecturesDemo/master/architecturesDemo/timg.jpeg")!,
-                        nickname: "ChaselAn",
-                        repositories: repositories)
+    func removeRepoForReducer(id: String) {
+        if let index = repositories.firstIndex(where: { $0.id == id }) {
+            repositories.remove(at: index)
+            mvcStateStore.dispatch(.deleteRepo(index: index))
+        }
     }
 }
-
