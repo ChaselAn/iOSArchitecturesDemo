@@ -7,5 +7,6 @@ target 'architecturesDemo' do
 
   # Pods for architecturesDemo
 	pod 'RxSwift'
+    pod 'RxCocoa'
     pod 'Disk'
 end

@@ -1,5 +1,6 @@
 import UIKit
 import RxSwift
+import RxCocoa
 
 class ViewController: UIViewController {
 
@@ -17,7 +18,8 @@ class ViewController: UIViewController {
     private var viewModel: ViewModel?
     private var mvvmObserver: NSObjectProtocol?
 
-//    private var dataBindViewModel: DataBindViewModel?
+    private var dataBindViewModel: DataBindViewModel?
+    private var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +29,7 @@ class ViewController: UIViewController {
         mvcDidLoad()
         mvpDidLoad()
         mvvmDidLoad()
-//        mvvmDataBindDidLoad()
+        mvvmDataBindDidLoad()
     }
 
 }
@@ -134,32 +136,52 @@ extension ViewController {
 }
 
 // MARK: - mvvmDataBind
-//class DataBindViewModel: NSObject {
-//    private var model: Model
-//
-//    var textFieldValue: Variable<String>?
-//
-//    init(model: Model) {
-//        self.model = model
-//        super.init()
-//
-//        textFieldValue = Variable(model.value)
-//    }
-//}
-//extension ViewController {
-//    private func mvvmDataBindDidLoad() {
-//        dataBindViewModel = DataBindViewModel(model: model)
-//
-//        dataBindViewModel?.textFieldValue?.asObservable()
-//    }
-//}
+class DataBindViewModel: NSObject {
+
+    private var model: Model
+    var modelVariable: Variable<Model>
+    private var disposeBag = DisposeBag()
+
+    init(model: Model) {
+        self.model = model
+        self.modelVariable = Variable(model)
+        super.init()
+
+        
+        modelVariable = Variable(model)
+
+
+        NotificationCenter.default.rx.notification(Model.textDidChange).subscribe(onNext: { [weak self] notification in
+            if let model = notification.object as? Model {
+               self?.modelVariable.value = model
+            }
+        }).disposed(by: disposeBag)
+    }
+
+    func commit(value: String) {
+        model.value = value
+    }
+}
+extension ViewController {
+    private func mvvmDataBindDidLoad() {
+        dataBindViewModel = DataBindViewModel(model: model)
+
+        dataBindViewModel?.modelVariable.asObservable().subscribe(onNext: { [weak self] (model) in
+            self?.mvvmDataBindView.textFieldValue = model.value
+        }, onError: nil, onCompleted: nil, onDisposed: nil).disposed(by: disposeBag)
+
+        mvvmDataBindView.commit = { [weak self] in
+            self?.dataBindViewModel?.commit(value: self?.mvvmDataBindView.textFieldValue ?? "")
+        }
+    }
+}
 
 extension ViewController {
 
     private func makeUI() {
         view.backgroundColor = .lightGray
 
-        let stack = UIStackView(arrangedSubviews: [mvcView, mvpView, mvvmView])
+        let stack = UIStackView(arrangedSubviews: [mvcView, mvpView, mvvmView, mvvmDataBindView])
         stack.axis = .vertical
         stack.alignment = .fill
         stack.distribution = .equalSpacing
