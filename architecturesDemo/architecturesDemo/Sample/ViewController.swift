@@ -147,9 +147,7 @@ class DataBindViewModel: NSObject {
         self.modelVariable = Variable(model)
         super.init()
 
-        
         modelVariable = Variable(model)
-
 
         NotificationCenter.default.rx.notification(Model.textDidChange).subscribe(onNext: { [weak self] notification in
             if let model = notification.object as? Model {
