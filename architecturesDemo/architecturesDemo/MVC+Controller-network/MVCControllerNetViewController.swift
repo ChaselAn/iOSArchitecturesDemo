@@ -30,18 +30,13 @@ class MVCControllerNetViewController: UIViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.hideHud()
-                guard let data = data else {
+                guard let data = data, let repos = try? JSONDecoder().decode([MVCNetworkRepository].self, from: data) else {
                     let alert = UIAlertController(title: "request error", message: nil, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
                     strongSelf.present(alert, animated: true, completion: nil)
                     return
                 }
-                do {
-                    let repos = try JSONDecoder().decode([MVCNetworkRepository].self, from: data)
-                    self?.repos = repos
-                } catch {
-                    print("---------------", error)
-                }
+                self?.repos = repos
             }
         }.resume()
     }
